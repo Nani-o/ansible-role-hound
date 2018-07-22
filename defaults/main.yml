@@ -1,0 +1,14 @@
+---
+# Defaults for installation source
+hound_repo_url: https://github.com/etsy/hound.git
+hound_go_url: "{{ hound_repo_url | regex_replace('^.*://', '') | regex_replace('.git$', '') }}/cmds/..."
+
+# Defaults for the config file
+hound_data_folder: /home/hound/
+hound_max_cc_indexers: 2
+hound_dbpath: data
+
+# Defaults for the service
+hound_service_name: hound
+hound_user: hound
+...

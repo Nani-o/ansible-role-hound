@@ -1,0 +1,11 @@
+---
+- name: systemd daemon-reload
+  systemd:
+    daemon_reload: yes
+
+- name: restart hound
+  systemd:
+    name: "{{ hound_service_name }}"
+    state: restarted
+    enabled: yes
+...

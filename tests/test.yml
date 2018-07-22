@@ -1,0 +1,11 @@
+---
+- hosts: container
+  vars:
+    hound_config_repos:
+      - name: hound
+        config:
+          url: https://github.com/Nani-o/ansible-role-hound.git
+  roles:
+    - golang
+    - role-to-test
+...

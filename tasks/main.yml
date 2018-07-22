@@ -1,0 +1,11 @@
+---
+- block:
+    - name: Install Hound
+      import_tasks: "install.yml"
+      tags: hound_install
+
+    - name: Configure Hound
+      import_tasks: "configure.yml"
+      tags: hound_config
+  tags: hound
+...

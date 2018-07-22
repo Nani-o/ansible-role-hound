@@ -1,0 +1,9 @@
+---
+- hosts: container
+  tasks:
+    - name: Check hound is listening
+      uri:
+        url: http://localhost:6080
+        return_content: yes
+      register: webpage
+...

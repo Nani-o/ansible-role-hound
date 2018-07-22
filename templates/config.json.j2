@@ -1,0 +1,13 @@
+{
+    "max-concurrent-indexers" : {{ hound_max_cc_indexers }},
+    "dbpath" : "{{ hound_dbpath }}",
+    "repos" : {
+{% for repo in hound_config_repos %}
+        "{{ repo.name }}": {
+{% for key, value in repo.config.items() %}
+            "{{ key }}" : "{{ value }}"
+{% endfor %}        
+        },
+{% endfor %}
+    }
+}

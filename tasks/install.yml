@@ -1,0 +1,21 @@
+---
+- name: Install hound and houndd using go command line
+  shell: "go get {{ hound_go_url }}"
+#  changed_when:
+
+- name: Create hound user
+  user:
+    name: "{{ hound_user }}"
+    state: present
+
+- name: Install systemd service
+  template:
+    src: hound.service.j2
+    dest: "{{ /etc/systemd/system/hound.service }}"
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - systemd daemon-reload
+    - restart hound
+...
