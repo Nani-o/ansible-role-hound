@@ -1,12 +1,14 @@
 ---
-- name: Install hound and houndd using go command line
-  shell: "/usr/local/go/bin/go get {{ hound_go_url }}"
-#  changed_when:
-
 - name: Create hound user
   user:
     name: "{{ hound_user }}"
     state: present
+
+- name: Install hound and houndd using go command line
+  shell: "/usr/local/go/bin/go get {{ hound_go_url }}"
+  become: yes
+  become_user: "{{ hound_user }}"
+#  changed_when:
 
 - name: Install systemd service
   template:
