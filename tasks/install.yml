@@ -11,7 +11,7 @@
 - name: Install systemd service
   template:
     src: hound.service.j2
-    dest: "{{ /etc/systemd/system/hound.service }}"
+    dest: /etc/systemd/system/hound.service
     owner: root
     group: root
     mode: 0644
