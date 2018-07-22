@@ -1,6 +1,6 @@
 ---
 - name: Install hound and houndd using go command line
-  shell: "go get {{ hound_go_url }}"
+  shell: "/usr/local/go/bin/go get {{ hound_go_url }}"
 #  changed_when:
 
 - name: Create hound user
