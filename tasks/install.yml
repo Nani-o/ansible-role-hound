@@ -8,7 +8,8 @@
   shell: "/usr/local/go/bin/go get {{ hound_go_url }}"
   become: yes
   become_user: "{{ hound_user }}"
-#  changed_when:
+  register: hound_install
+  changed_when: "'(download)' in hound_install.stdout"
 
 - name: Install systemd service
   template:
