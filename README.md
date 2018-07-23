@@ -11,6 +11,9 @@ Compatibility
 - Ubuntu 14.04
 - Ubuntu 16.04
 - Ubuntu 18.04
+- CentOS 7
+- Debian 9
+- Debian 8 (should work)
 
 Variables
 ---------
