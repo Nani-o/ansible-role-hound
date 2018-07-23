@@ -39,11 +39,10 @@ The list of repos that will be put into the hound configuration.
 
 ```
 hound_config_repos:
-  - name: ANameForTheRepo
-    config:
-      url: https://github.com/Nani-o/ansible-role-hound.git
-      ms-between-poll: 10000
-      exclude-dot-files: true
+  ANameForTheRepo:
+    url: https://github.com/Nani-o/ansible-role-hound.git
+    ms-between-poll: 10000
+    exclude-dot-files: true
 ```
 
 License
