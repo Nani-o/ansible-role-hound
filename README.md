@@ -45,6 +45,25 @@ hound_config_repos:
     exclude-dot-files: true
 ```
 
+###### hound_config_github_user
+
+If this var is specified, a script with a crontab will be setup in order to build a config file with all this Github user repositories.
+You can still use hound_config_repos if you have other repositories that you want to setup with. They will be deployed in a seed.json file that will be merged with the Github user repositories.
+
+```
+hound_config_github_user: Nani-o
+```
+
+###### hound_config_github_user_excludes
+
+A list of repositories you want to exclude from being auto discovered from the hound_config_github_user variable.
+
+```
+hound_config_github_user_excludes:
+  - reponame
+  - otherreponame
+```
+
 License
 -------
 

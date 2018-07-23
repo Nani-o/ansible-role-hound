@@ -4,6 +4,13 @@
     name: "{{ hound_user }}"
     state: present
 
+- name: Install curl and jq if using the script
+  package:
+    name:
+      - jq
+      - curl
+  when: "hound_config_github_user is defined"
+
 - name: Install hound and houndd using go command line
   shell: "/usr/local/go/bin/go get {{ hound_go_url }}"
   become: yes

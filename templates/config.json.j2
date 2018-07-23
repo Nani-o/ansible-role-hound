@@ -1,5 +1,5 @@
 {
     "max-concurrent-indexers" : {{ hound_max_cc_indexers }},
     "dbpath" : "{{ hound_dbpath }}",
-    "repos" : {{ hound_config_repos | to_nice_json | indent(width=4, indentfirst=False) }}
+    "repos" : {{ hound_config_repos | default({}) | to_nice_json | indent(width=4, indentfirst=False) }}
 }

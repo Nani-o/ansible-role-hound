@@ -1,11 +1,70 @@
 ---
+- name: Conditional configuration file name
+  set_fact:
+    hound_config_filename: config.json
+    hound_cron_state: absent
+  when: "hound_config_github_user is not defined"
+
+- name: Conditional configuration file name
+  set_fact:
+    hound_config_filename: seed.json
+    hound_cron_state: present
+  when: "hound_config_github_user is defined"
+
 - name: Deploy configuration file
   template:
     src: config.json.j2
-    dest: "{{ hound_data_folder }}/config.json"
+    dest: "{{ hound_data_folder }}/{{ hound_config_filename }}"
     owner: "{{ hound_user }}"
     group: "{{ hound_user }}"
     mode: 0644
   notify:
     - restart hound
+
+- name: Give sudo rights to restart the service to the hound_user
+  lineinfile:
+    dest: "/etc/sudoers"
+    regexp: "^hound"
+    line: "hound ALL= NOPASSWD: /bin/systemctl * {{ hound_service_name }}"
+    state: present
+    owner: root
+    group: root
+    mode: 0440
+    validate: "/usr/sbin/visudo -cf %s"
+
+- name: Copy the build script
+  copy:
+    src: github_repos_to_hound_config.sh
+    dest: "{{ hound_data_folder }}"
+    owner: "{{ hound_user }}"
+    group: "{{ hound_user }}"
+    mode: 0755
+  when: "hound_config_github_user is defined"
+
+- name: Put or remove the cron job to execute the builder script
+  cron:
+    name: github user repos config building
+    job: >
+      {{ hound_data_folder }}/github_repos_to_hound_config.sh
+      {{ hound_config_github_user | default('') }}
+      {{ hound_data_folder }}/seed.json
+      {{ hound_data_folder }}/config.json
+      {{ hound_config_github_user_excludes | default ([]) | join(' ') }}
+    special_time: hourly
+    user: "{{ hound_user }}"
+    state: "{{ hound_cron_state }}"
+  register: put_cron_job
+
+- name: Executing script when cron is setup
+  shell: >
+    {{ hound_data_folder }}/github_repos_to_hound_config.sh
+    {{ hound_config_github_user }}
+    {{ hound_data_folder }}/seed.json
+    {{ hound_data_folder }}/config.json
+    {{ hound_config_github_user_excludes | join(' ') }}
+  become: yes
+  become_user: "{{ hound_user }}"
+  when:
+    - "put_cron_job is changed"
+    - "hound_config_github_user is defined"
 ...
